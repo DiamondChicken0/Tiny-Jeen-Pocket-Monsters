@@ -22,10 +22,10 @@ enum {
 var state = ROAM
 var menuState = BASE
 
-onready var label0 = $Battle/BattleSelections/Move1
-onready var label1 = $Battle/BattleSelections/Move2
-onready var label2 = $Battle/BattleSelections/Move3
-onready var label3 = $Battle/BattleSelections/Move4
+onready var label0 = $Battle/Control/Move1
+onready var label1 = $Battle/Control/Move2
+onready var label2 = $Battle/Control/Move3
+onready var label3 = $Battle/Control/Move4
 onready var Player = $Battle/Path2D2/PathFollow2D/Player/MonsterController
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,6 +33,8 @@ func _ready():
 
 
 func _process(delta):
+	print(menuState)
+	_updateLabels()
 	match (state):
 		ROAM:
 			$Battle.visible = false
@@ -54,31 +56,11 @@ func _on_Player_StartBattle():
 	_updateLabels()
 
 
-func _on_Area2D_input_event(viewport, event, shape_idx):
-	print(event)
-	if Input.is_action_just_pressed("left_click") and state == BATTLE:
-		match shape_idx:
-			0:
-				if menuState == BASE:
-					menuState = FIGHT
-				
-			1:
-				if menuState == BASE:
-					menuState = ITEMS
-				
-			2: 
-				if menuState == BASE:
-					menuState = SWITCH
-			
-			3:
-				if menuState == BASE:
-					menuState = RUN
-		
-		_updateLabels()
 
 func _updateLabels():
 	match menuState:
 		BASE:
+			print("bad printing")
 			label0.text = "FIGHT"
 			label1.text = "ITEMS"
 			label2.text = "SWITCH"
@@ -107,3 +89,41 @@ func _endBattle(condition):
 			pass
 		LOST:
 			state = ROAM
+
+
+func _ButtonState(event):
+	match event:
+		0:
+			if menuState == BASE:
+				menuState = FIGHT
+			
+		1:
+			if menuState == BASE:
+				menuState = ITEMS
+			
+		2: 
+			if menuState == BASE:
+				menuState = SWITCH
+		
+		3:
+			if menuState == BASE:
+				menuState = RUN
+	
+	_updateLabels()
+
+
+func _on_Move1_pressed():
+	print("button")
+	_ButtonState(0)
+
+
+func _on_Move2_pressed():
+	_ButtonState(1)
+
+
+func _on_Move3_pressed():
+	_ButtonState(2)
+
+
+func _on_Move4_pressed():
+	_ButtonState(3)

@@ -8,20 +8,20 @@ var SpATK = 1
 var Def = 1
 var SpDef = 1
 var Spd = 1
-var Moves = "AAAA"
-var move0name
+var Moves = "ABAA"
+var move0name = "Blank"
 var move0pwr
 var move0acc
 var move0type
-var move1name
+var move1name = "Blank"
 var move1pwr
 var move1acc
 var move1type
-var move2name
+var move2name = "Blank"
 var move2pwr
 var move2acc
 var move2type
-var move3name
+var move3name = "Blank"
 var move3pwr
 var move3acc
 var move3type

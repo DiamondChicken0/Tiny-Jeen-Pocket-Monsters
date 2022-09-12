@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Red.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
@@ -16,11 +16,6 @@ height = 0.0
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 14.6667
 height = 10.6667
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 65.5, 14 )
-
-[sub_resource type="Theme" id=5]
 
 [sub_resource type="Curve2D" id=4]
 _data = {
@@ -56,74 +51,6 @@ position = Vector2( -1.33333, 0.666664 )
 shape = SubResource( 2 )
 
 [node name="Battle" type="YSort" parent="."]
-
-[node name="BattleSelections" type="Sprite" parent="Battle"]
-position = Vector2( 0, 213 )
-texture = ExtResource( 5 )
-centered = false
-
-[node name="Area2D" type="Area2D" parent="Battle/BattleSelections"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/BattleSelections/Area2D"]
-position = Vector2( 92.5, 22 )
-z_index = 5
-shape = SubResource( 3 )
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Battle/BattleSelections/Area2D"]
-position = Vector2( 230, 22 )
-z_index = 5
-shape = SubResource( 3 )
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Battle/BattleSelections/Area2D"]
-position = Vector2( 92, 54 )
-z_index = 5
-shape = SubResource( 3 )
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Battle/BattleSelections/Area2D"]
-position = Vector2( 230.5, 54 )
-z_index = 5
-shape = SubResource( 3 )
-
-[node name="Move1" type="RichTextLabel" parent="Battle/BattleSelections"]
-margin_left = 28.0
-margin_top = 8.0
-margin_right = 158.0
-margin_bottom = 36.0
-rect_clip_content = false
-hint_tooltip = "TEST"
-theme = SubResource( 5 )
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 7 )
-text = "TEST"
-
-[node name="Move2" type="RichTextLabel" parent="Battle/BattleSelections"]
-margin_left = 167.0
-margin_top = 8.0
-margin_right = 294.0
-margin_bottom = 36.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 7 )
-text = "TEST"
-
-[node name="Move3" type="RichTextLabel" parent="Battle/BattleSelections"]
-margin_left = 27.0
-margin_top = 41.0
-margin_right = 157.0
-margin_bottom = 69.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 7 )
-text = "TEST"
-
-[node name="Move4" type="RichTextLabel" parent="Battle/BattleSelections"]
-margin_left = 168.0
-margin_top = 40.0
-margin_right = 298.0
-margin_bottom = 68.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 7 )
-text = "TEST"
 
 [node name="Path2D" type="Path2D" parent="Battle"]
 position = Vector2( 268.2, 46.7333 )
@@ -165,5 +92,57 @@ script = ExtResource( 8 )
 [node name="MonsterController" type="Node" parent="Battle/Path2D2/PathFollow2D/Player"]
 script = ExtResource( 6 )
 
+[node name="Control" type="Control" parent="Battle"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="BattleSelections" type="Sprite" parent="Battle/Control"]
+position = Vector2( 0, 213 )
+texture = ExtResource( 5 )
+centered = false
+
+[node name="Move1" type="Button" parent="Battle/Control"]
+margin_left = 25.0
+margin_top = 219.0
+margin_right = 158.0
+margin_bottom = 252.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "TEST"
+flat = true
+
+[node name="Move2" type="Button" parent="Battle/Control"]
+margin_left = 168.0
+margin_top = 219.0
+margin_right = 295.0
+margin_bottom = 252.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "TEST"
+flat = true
+
+[node name="Move3" type="Button" parent="Battle/Control"]
+margin_left = 27.0
+margin_top = 251.0
+margin_right = 157.0
+margin_bottom = 284.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "TEST"
+flat = true
+
+[node name="Move4" type="Button" parent="Battle/Control"]
+margin_left = 168.0
+margin_top = 251.0
+margin_right = 298.0
+margin_bottom = 284.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "TEST"
+flat = true
+
 [connection signal="StartBattle" from="Roam/Player" to="." method="_on_Player_StartBattle"]
-[connection signal="input_event" from="Battle/BattleSelections/Area2D" to="." method="_on_Area2D_input_event"]
+[connection signal="pressed" from="Battle/Control/Move1" to="." method="_on_Move1_pressed"]
+[connection signal="pressed" from="Battle/Control/Move2" to="." method="_on_Move2_pressed"]
+[connection signal="pressed" from="Battle/Control/Move3" to="." method="_on_Move3_pressed"]
+[connection signal="pressed" from="Battle/Control/Move4" to="." method="_on_Move4_pressed"]
