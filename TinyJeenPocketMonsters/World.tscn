@@ -83,9 +83,9 @@ position = Vector2( 230, 22 )
 shape = SubResource( 3 )
 
 [node name="Move2" type="RichTextLabel" parent="Battle/BattleSelections/Area2D/CollisionShape2D2"]
-margin_left = -65.0
+margin_left = -63.0
 margin_top = -14.0
-margin_right = 65.0
+margin_right = 67.0
 margin_bottom = 14.0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 custom_fonts/normal_font = ExtResource( 7 )
@@ -109,9 +109,9 @@ position = Vector2( 230.5, 54 )
 shape = SubResource( 3 )
 
 [node name="Move4" type="RichTextLabel" parent="Battle/BattleSelections/Area2D/CollisionShape2D4"]
-margin_left = -65.5
+margin_left = -62.5
 margin_top = -14.0
-margin_right = 64.5
+margin_right = 67.5
 margin_bottom = 14.0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
@@ -125,7 +125,7 @@ scale = Vector2( 3.8, 3.8 )
 curve = SubResource( 4 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Battle/Path2D"]
-position = Vector2( 8.89472, 10.8596 )
+position = Vector2( 9.15788, 11.1228 )
 rotation = -2.2773
 rotate = false
 
