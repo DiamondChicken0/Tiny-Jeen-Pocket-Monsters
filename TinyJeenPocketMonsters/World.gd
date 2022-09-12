@@ -14,27 +14,34 @@ enum {
 	SWITCH
 }
 
+enum {
+	WON
+	LOST
+}
+
 var state = ROAM
 var menuState = BASE
 
-onready var label0 = $Battle/BattleSelections/Area2D/CollisionShape2D/Move1
-onready var label1 = $Battle/BattleSelections/Area2D/CollisionShape2D2/Move2
-onready var label2 = $Battle/BattleSelections/Area2D/CollisionShape2D3/Move3
-onready var label3 = $Battle/BattleSelections/Area2D/CollisionShape2D4/Move4
-onready var Enemy = $Battle/Path2D/PathFollow2D/Enemy
+onready var label0 = $Battle/BattleSelections/Move1
+onready var label1 = $Battle/BattleSelections/Move2
+onready var label2 = $Battle/BattleSelections/Move3
+onready var label3 = $Battle/BattleSelections/Move4
+onready var Player = $Battle/Path2D2/PathFollow2D/Player/MonsterController
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
 
 func _process(delta):
-	
 	match (state):
 		ROAM:
-			pass
+			$Battle.visible = false
+			$Roam.visible = true
 			
 		BATTLE:
 			$Roam.visible = false
+			$Battle.visible = true
+			
 		PAUSE:
 			pass	
 			
@@ -78,10 +85,11 @@ func _updateLabels():
 			label3.text = "RUN"
 			
 		FIGHT:
-			label0.text = Enemy.getMove(0)
-			label1.text = Enemy.getMove(1)
-			label2.text = Enemy.getMove(2)
-			label3.text = Enemy.getMove(3)
+			print("not printing")
+			label0.text = Player.getMove(0)
+			label1.text = Player.getMove(1)
+			label2.text = Player.getMove(2)
+			label3.text = Player.getMove(3)
 			
 		ITEMS:
 			pass
@@ -89,5 +97,13 @@ func _updateLabels():
 		SWITCH:
 			pass
 			
-		SWITCH:
+		RUN:
+			if randi() % 2 == 0:
+				_endBattle(LOST)
+
+func _endBattle(condition):
+	match(condition):
+		WON:
 			pass
+		LOST:
+			state = ROAM

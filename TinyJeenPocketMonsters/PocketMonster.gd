@@ -1,7 +1,8 @@
-extends Sprite
+extends Node
 
 var newTexture = load("res://Charminder.png")
 var moveChange = true
+var HP = 1
 var Atk = 1
 var SpATK = 1
 var Def = 1
@@ -84,13 +85,14 @@ func assignMove(moveNum, name, pwr, acc, type):
 				move3type = type
 	else:
 		print ("Move Already Learned!")
-
+	
 func _process(delta):
-	$"..".offset += 4 * delta
+
 	if moveChange:
 		match (monster):
 			CHARMINDER:
-				$".".texture = newTexture
+				get_parent().texture = newTexture
+				HP = 25
 				Atk = 6
 				SpATK = 7
 				Def = 4
@@ -100,11 +102,13 @@ func _process(delta):
 				for i in 4:
 					match (Moves.substr(i,i)):
 						"A":
-							assignMove(i,"punch", 40, 95, NORMAL)
+							assignMove(i, "Punch", 40, 95, NORMAL)
 							
-						_:
-							pass
+						"B":
+							assignMove(i, "Ember", 50, 80, FIRE)
+							
 				moveChange = false
+				
 			MINKEY:
 				Atk = 8
 				SpATK = 3

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/pixil-frame-0 (14).png-9183698610b73f5efc16f365b53282f0.stex"
+path="res://.import/Squuere.png-9920ae3b8eccda1ccc4c583b51148275.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pixil-frame-0 (14).png"
-dest_files=[ "res://.import/pixil-frame-0 (14).png-9183698610b73f5efc16f365b53282f0.stex" ]
+source_file="res://Squuere.png"
+dest_files=[ "res://.import/Squuere.png-9920ae3b8eccda1ccc4c583b51148275.stex" ]
 
 [params]
 
