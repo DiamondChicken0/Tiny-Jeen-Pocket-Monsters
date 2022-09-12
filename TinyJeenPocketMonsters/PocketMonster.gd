@@ -1,5 +1,7 @@
-extends Node2D
+extends Sprite
 
+var newTexture = load("res://Charminder.png")
+var moveChange = true
 var Atk = 1
 var SpATK = 1
 var Def = 1
@@ -24,6 +26,7 @@ var move3acc
 var move3type
 
 
+
 enum {
 	CHARMINDER
 	MINKEY
@@ -42,8 +45,19 @@ export var monster = CHARMINDER
 func _ready():
 	pass # Replace with function body.
 
+func getMove(moveNum):
+	match(moveNum):
+		0:
+			return move0name
+		1:
+			return move1name
+		2: 
+			return move2name
+		3:
+			return move3name
+			
 func assignMove(moveNum, name, pwr, acc, type):
-	if !(name is move0name or name is move1name or name is move2name or name is move3name):
+	if !(name == move0name or name == move1name or name == move2name or name == move3name):
 		match(moveNum):
 			0:
 				move0name = name
@@ -72,29 +86,33 @@ func assignMove(moveNum, name, pwr, acc, type):
 		print ("Move Already Learned!")
 
 func _process(delta):
-	match (monster):
-		CHARMINDER:
-			Atk = 6
-			SpATK = 7
-			Def = 4
-			SpDef = 4
-			Spd = 6
-			
-			for i in 4:
-				match (Moves.substr(i,i)):
-					"A":
-						assignMove(i,"punch", 40, 95, NORMAL)
-						
-					_:
-						pass
-		MINKEY:
-			Atk = 8
-			SpATK = 3
-			Def = 5
-			SpDef = 3
-			Spd = 5
-			
-		_:
-			pass
-			
+	$"..".offset += 4 * delta
+	if moveChange:
+		match (monster):
+			CHARMINDER:
+				$".".texture = newTexture
+				Atk = 6
+				SpATK = 7
+				Def = 4
+				SpDef = 4
+				Spd = 6
+				
+				for i in 4:
+					match (Moves.substr(i,i)):
+						"A":
+							assignMove(i,"punch", 40, 95, NORMAL)
+							
+						_:
+							pass
+				moveChange = false
+			MINKEY:
+				Atk = 8
+				SpATK = 3
+				Def = 5
+				SpDef = 3
+				Spd = 5
+				
+			_:
+				pass
+				
 
