@@ -33,7 +33,6 @@ func _ready():
 
 
 func _process(delta):
-	print(menuState)
 	_updateLabels()
 	match (state):
 		ROAM:
@@ -46,7 +45,6 @@ func _process(delta):
 			
 		PAUSE:
 			pass	
-			
 
 
 
@@ -60,14 +58,12 @@ func _on_Player_StartBattle():
 func _updateLabels():
 	match menuState:
 		BASE:
-			print("bad printing")
 			label0.text = "FIGHT"
 			label1.text = "ITEMS"
 			label2.text = "SWITCH"
 			label3.text = "RUN"
 			
 		FIGHT:
-			print("not printing")
 			label0.text = Player.getMove(0)
 			label1.text = Player.getMove(1)
 			label2.text = Player.getMove(2)
@@ -82,6 +78,7 @@ func _updateLabels():
 		RUN:
 			if randi() % 2 == 0:
 				_endBattle(LOST)
+				
 
 func _endBattle(condition):
 	match(condition):
@@ -113,7 +110,6 @@ func _ButtonState(event):
 
 
 func _on_Move1_pressed():
-	print("button")
 	_ButtonState(0)
 
 

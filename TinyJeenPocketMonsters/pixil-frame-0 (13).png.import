@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/birdemic.png-9cf02840131844e35311103e9ee87187.stex"
+path="res://.import/pixil-frame-0 (13).png-217b51358287980abb0f47e2466c5391.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://birdemic.png"
-dest_files=[ "res://.import/birdemic.png-9cf02840131844e35311103e9ee87187.stex" ]
+source_file="res://pixil-frame-0 (13).png"
+dest_files=[ "res://.import/pixil-frame-0 (13).png-217b51358287980abb0f47e2466c5391.stex" ]
 
 [params]
 

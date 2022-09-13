@@ -25,12 +25,15 @@ var move3name = "Blank"
 var move3pwr
 var move3acc
 var move3type
+var enemyParty = []
+var playerParty = []
 
 
 
 enum {
 	CHARMINDER
 	MINKEY
+	SQUEERE
 }
 
 enum {
@@ -40,7 +43,7 @@ enum {
 	GRASS
 }
 
-export var monster = CHARMINDER
+var monster = SQUEERE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -88,7 +91,6 @@ func assignMove(moveNum, name, pwr, acc, type):
 	print (move0name + " " + move1name + " " + move2name + " " + move3name)
 	
 func _process(delta):
-
 	if moveChange:
 		match (monster):
 			CHARMINDER:
@@ -101,23 +103,41 @@ func _process(delta):
 				Spd = 6
 				
 				for i in 4:
-					match (Moves.substr(i,i)):
+					match (Moves.substr(i,1)):
 						"A":
-							assignMove(i, "Punch", 40, 95, NORMAL)
+							assignMove(i, "WRESTLE", 40, 95, NORMAL)
 							
 						"B":
-							assignMove(i, "Ember", 50, 80, FIRE)
+							assignMove(i, "FIRE", 50, 80, FIRE)
 				moveChange = false
+				
 					
 				
 			MINKEY:
+				get_parent().texture = load("res://Squuere.png")
 				Atk = 8
 				SpATK = 3
 				Def = 5
 				SpDef = 3
 				Spd = 5
 				
+			SQUEERE:
+				get_parent().texture = load("res://Squuere.png")
+				HP = 30
+				Atk = 3
+				SpATK = 7
+				Def = 6
+				SpDef = 6
+				Spd = 2
+				
+				for i in 4:
+					match (Moves.substr(i,1)):
+						"A":
+							assignMove(i, "WRESTLE", 40, 95, NORMAL)
+							
+						"B":
+							assignMove(i, "SPLASH", 50, 80, WATER)
+				moveChange = false
 			_:
 				pass
-				
-
+		
