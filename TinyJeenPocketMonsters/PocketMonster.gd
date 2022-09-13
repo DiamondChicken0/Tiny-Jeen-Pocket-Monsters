@@ -8,7 +8,7 @@ var SpATK = 1
 var Def = 1
 var SpDef = 1
 var Spd = 1
-var Moves = "ABAA"
+var Moves = "AB~~"
 var move0name = "Blank"
 var move0pwr
 var move0acc
@@ -85,6 +85,7 @@ func assignMove(moveNum, name, pwr, acc, type):
 				move3type = type
 	else:
 		print ("Move Already Learned!")
+	print (move0name + " " + move1name + " " + move2name + " " + move3name)
 	
 func _process(delta):
 
@@ -106,8 +107,8 @@ func _process(delta):
 							
 						"B":
 							assignMove(i, "Ember", 50, 80, FIRE)
-							
 				moveChange = false
+					
 				
 			MINKEY:
 				Atk = 8
