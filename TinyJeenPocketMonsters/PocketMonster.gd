@@ -2,7 +2,10 @@ extends Node
 
 var newTexture = load("res://Charminder.png")
 var moveChange = true
+var type1 = NORMAL
+var type2 = FIRE
 var HP = 1
+var CurrentHP = 1
 var Atk = 1
 var SpATK = 1
 var Def = 1
@@ -43,11 +46,14 @@ enum {
 	GRASS
 }
 
+
+
 var monster = SQUEERE
+var PlayerName = "CHARMINDER"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
 func getMove(moveNum):
 	match(moveNum):
@@ -94,8 +100,11 @@ func _process(delta):
 	if moveChange:
 		match (monster):
 			CHARMINDER:
+				PlayerName = "Charminder"
 				get_parent().texture = newTexture
+				type1 = FIRE
 				HP = 25
+				CurrentHP = 25
 				Atk = 6
 				SpATK = 7
 				Def = 4
@@ -122,7 +131,10 @@ func _process(delta):
 				Spd = 5
 				
 			SQUEERE:
+				PlayerName = "SQUEERE"
 				get_parent().texture = load("res://Squuere.png")
+				type1 = WATER
+				CurrentHP = 30
 				HP = 30
 				Atk = 3
 				SpATK = 7

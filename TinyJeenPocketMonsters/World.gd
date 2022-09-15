@@ -21,6 +21,7 @@ enum {
 
 var state = ROAM
 var menuState = BASE
+signal update
 
 onready var label0 = $Battle/Control/Move1
 onready var label1 = $Battle/Control/Move2
@@ -79,6 +80,7 @@ func _updateLabels():
 			if randi() % 2 == 0:
 				_endBattle(LOST)
 				
+	emit_signal("update")
 
 func _endBattle(condition):
 	match(condition):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Red.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://pixil-frame-0 (18).png" type="Texture" id=11]
 [ext_resource path="res://pixil-frame-0 (14).png" type="Texture" id=12]
 [ext_resource path="res://Battle.gd" type="Script" id=13]
+[ext_resource path="res://FinalFontSmall.tres" type="DynamicFont" id=14]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 8.0
@@ -127,29 +128,37 @@ texture_progress = ExtResource( 12 )
 nine_patch_stretch = true
 
 [node name="EnemyName" type="RichTextLabel" parent="Battle/Control/EnemyReadout"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = -35.0
+margin_top = -18.0
+margin_right = 36.0
+margin_bottom = -1.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 7 )
+custom_fonts/normal_font = ExtResource( 14 )
+text = "Charminder"
+scroll_active = false
 
 [node name="EnemyHealth" type="Label" parent="Battle/Control/EnemyReadout"]
-margin_left = -16.0
-margin_right = 24.0
-margin_bottom = 27.0
+margin_left = -25.4545
+margin_top = 0.60606
+margin_right = 26.5455
+margin_bottom = 45.6061
 rect_scale = Vector2( 1.29091, 0.90303 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 14 )
+text = "120/120"
 
 [node name="PlayerReadout" type="Sprite" parent="Battle/Control"]
-position = Vector2( 259, 179 )
+position = Vector2( 258, 178 )
 scale = Vector2( 1.5125, 1.65 )
 texture = ExtResource( 10 )
 
 [node name="TextureProgress" type="TextureProgress" parent="Battle/Control/PlayerReadout"]
-margin_left = -20.0
-margin_top = 4.84894
-margin_right = 59.5041
-margin_bottom = 44.8489
+margin_left = -18.1818
+margin_top = -1.81819
+margin_right = 61.3223
+margin_bottom = 38.1818
 rect_scale = Vector2( 0.682645, 0.10303 )
 value = 50.0
 texture_over = ExtResource( 11 )
@@ -157,19 +166,28 @@ texture_progress = ExtResource( 12 )
 nine_patch_stretch = true
 
 [node name="PlayerName" type="RichTextLabel" parent="Battle/Control/PlayerReadout"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = -35.0
+margin_top = -18.0
+margin_right = 36.0
+margin_bottom = -1.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 7 )
+custom_fonts/normal_font = ExtResource( 14 )
+text = "Charminder"
+scroll_active = false
 
-[node name="PlayerHealth" type="RichTextLabel" parent="Battle/Control/PlayerReadout"]
-margin_right = 40.0
-margin_bottom = 40.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 7 )
+[node name="PlayerHealth" type="Label" parent="Battle/Control/PlayerReadout"]
+margin_left = -25.4545
+margin_top = 0.60606
+margin_right = 26.5455
+margin_bottom = 45.6061
+rect_scale = Vector2( 1.29091, 0.90303 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "120/120"
 
 [node name="Path2D" type="Path2D" parent="Battle"]
-visible = false
 position = Vector2( 268.2, 46.7333 )
 scale = Vector2( 3.8, 3.8 )
 curve = SubResource( 4 )
@@ -187,7 +205,6 @@ texture = ExtResource( 3 )
 script = ExtResource( 8 )
 
 [node name="Path2D2" type="Path2D" parent="Battle"]
-visible = false
 position = Vector2( 81.2, 156.733 )
 scale = Vector2( 3.8, 3.8 )
 z_index = -10
@@ -210,6 +227,7 @@ script = ExtResource( 9 )
 [node name="MonsterController" type="Node" parent="Battle/Path2D2/PathFollow2D/Player"]
 script = ExtResource( 6 )
 
+[connection signal="update" from="." to="Battle" method="_on_World_update"]
 [connection signal="StartBattle" from="Roam/Player" to="." method="_on_Player_StartBattle"]
 [connection signal="pressed" from="Battle/Control/Move1" to="." method="_on_Move1_pressed"]
 [connection signal="pressed" from="Battle/Control/Move2" to="." method="_on_Move2_pressed"]

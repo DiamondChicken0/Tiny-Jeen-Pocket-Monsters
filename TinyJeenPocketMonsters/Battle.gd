@@ -13,4 +13,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$Control/EnemyReadout/EnemyHealth.text = str($Path2D2/PathFollow2D/Player/MonsterController.HP)
+	$Control/PlayerReadout/PlayerHealth.text = str($Path2D2/PathFollow2D/Player/MonsterController.CurrentHP) + "/" + str($Path2D2/PathFollow2D/Player/MonsterController.HP)
+	$Control/PlayerReadout/PlayerName.text = $Path2D2/PathFollow2D/Player/MonsterController.PlayerName
+
+
+func _on_World_update():
+	$Control/PlayerReadout/PlayerHealth.text = str($Path2D2/PathFollow2D/Player/MonsterController.CurrentHP) + "/" + str($Path2D2/PathFollow2D/Player/MonsterController.HP)
+	$Control/PlayerReadout/PlayerName.text = $Path2D2/PathFollow2D/Player/MonsterController.PlayerName
+
