@@ -134,8 +134,8 @@ func _process(delta):
 				PlayerName = "SQUEERE"
 				get_parent().texture = load("res://Squuere.png")
 				type1 = WATER
-				CurrentHP = 30
-				HP = 30
+				CurrentHP = 20
+				HP = 32
 				Atk = 3
 				SpATK = 7
 				Def = 6

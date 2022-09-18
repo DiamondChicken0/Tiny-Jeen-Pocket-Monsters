@@ -1,23 +1,23 @@
 extends YSort
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	$Control/PlayerReadout/PlayerHealth.text = str($Path2D2/PathFollow2D/Player/MonsterController.CurrentHP) + "/" + str($Path2D2/PathFollow2D/Player/MonsterController.HP)
-	$Control/PlayerReadout/PlayerName.text = $Path2D2/PathFollow2D/Player/MonsterController.PlayerName
-
+onready var PHealth = $Control/PlayerReadout/PlayerHealth
+onready var PName = $Control/PlayerReadout/PlayerName
+onready var PController = $Path2D2/PathFollow2D/Player/MonsterController
+onready var PHealthBar = $Control/PlayerReadout/TextureProgress
+var PHPpercentage
 
 func _on_World_update():
-	$Control/PlayerReadout/PlayerHealth.text = str($Path2D2/PathFollow2D/Player/MonsterController.CurrentHP) + "/" + str($Path2D2/PathFollow2D/Player/MonsterController.HP)
-	$Control/PlayerReadout/PlayerName.text = $Path2D2/PathFollow2D/Player/MonsterController.PlayerName
+	PHealth.text = str(PController.CurrentHP) + "/" + str(PController.HP)
+	PName.text = PController.PlayerName
+	PHealthBar.max_value = PController.HP
+	PHealthBar.value = PController.CurrentHP
+	PHPpercentage = (float(PController.CurrentHP) / PController.HP)
+	print (PHPpercentage)
+	
+	if PHPpercentage <= 0.30:
+		PHealthBar.texture_progress = load("res://pixil-frame-0 (16).png")
+	elif PHPpercentage >= 0.70:
+		PHealthBar.texture_progress = load("res://pixil-frame-0 (14).png")
+	else:
+		PHealthBar.texture_progress = load("res://pixil-frame-0 (15).png")
 
