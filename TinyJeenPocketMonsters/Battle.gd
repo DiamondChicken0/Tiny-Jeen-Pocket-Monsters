@@ -12,7 +12,6 @@ func _on_World_update():
 	PHealthBar.max_value = PController.HP
 	PHealthBar.value = PController.CurrentHP
 	PHPpercentage = (float(PController.CurrentHP) / PController.HP)
-	print (PHPpercentage)
 	
 	if PHPpercentage <= 0.30:
 		PHealthBar.texture_progress = load("res://pixil-frame-0 (16).png")

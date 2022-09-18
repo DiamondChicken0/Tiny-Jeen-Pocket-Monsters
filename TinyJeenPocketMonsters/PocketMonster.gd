@@ -28,8 +28,10 @@ var move3name = "Blank"
 var move3pwr
 var move3acc
 var move3type
-var enemyParty = []
-var playerParty = []
+var playerParty = [SQUEERE]
+var playerPartyNames = ["SQUEERE",null,null,null]
+var potions = 3
+var bracelets = 0
 
 
 
@@ -101,7 +103,7 @@ func _process(delta):
 		match (monster):
 			CHARMINDER:
 				PlayerName = "Charminder"
-				get_parent().texture = newTexture
+				get_parent().texture = load("res://Charminder.png")
 				type1 = FIRE
 				HP = 25
 				CurrentHP = 25
@@ -123,7 +125,11 @@ func _process(delta):
 					
 				
 			MINKEY:
-				get_parent().texture = load("res://Squuere.png")
+				PlayerName = "MINKEY"
+				get_parent().texture = load("res://Minkey.png")
+				type1 = NORMAL
+				CurrentHP = 30
+				HP = 30
 				Atk = 8
 				SpATK = 3
 				Def = 5
@@ -134,7 +140,7 @@ func _process(delta):
 				PlayerName = "SQUEERE"
 				get_parent().texture = load("res://Squuere.png")
 				type1 = WATER
-				CurrentHP = 20
+				CurrentHP = 32
 				HP = 32
 				Atk = 3
 				SpATK = 7

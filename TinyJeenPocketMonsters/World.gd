@@ -71,10 +71,38 @@ func _updateLabels():
 			label3.text = Player.getMove(3)
 			
 		ITEMS:
-			pass
+			if Player.potions != 0:
+				label0.text = str(Player.potions)
+			else:
+				label0.text = "0"
+			label0.text += " POTIONS"
+			
+			if Player.bracelets != 0:
+				label1.text = str(Player.potions)
+			else:
+				label1.text = "0"
+			label1.text += " FBRACE"
+			
+			label2.text = ""
+			label3.text = ""
 			
 		SWITCH:
-			pass
+			label0.text = Player.playerPartyNames[0]
+			if Player.playerPartyNames[1] != null:
+				label1.text = Player.playerPartyNames[1]
+			else:
+				label1.text = ""
+				
+			if Player.playerPartyNames[2] != null:
+				label2.text = Player.playerPartyNames[2]
+			else:
+				label2.text = ""
+				
+			if Player.playerPartyNames[3] != null:
+				label3.text = Player.playerPartyNames[3]
+			else:
+				label3.text = ""
+				
 			
 		RUN:
 			if randi() % 2 == 0:
@@ -125,3 +153,11 @@ func _on_Move3_pressed():
 
 func _on_Move4_pressed():
 	_ButtonState(3)
+
+
+func _on_Back1_pressed():
+	menuState = BASE
+
+
+func _on_Back2_pressed():
+	menuState = BASE
