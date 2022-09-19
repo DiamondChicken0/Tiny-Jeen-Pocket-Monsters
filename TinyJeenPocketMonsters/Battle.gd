@@ -6,6 +6,12 @@ onready var PController = $Path2D2/PathFollow2D/Player/MonsterController
 onready var PHealthBar = $Control/PlayerReadout/TextureProgress
 var PHPpercentage
 
+onready var EHealth = $Control/EnemyReadout/EnemyHealth
+onready var EName = $Control/EnemyReadout/EnemyName
+onready var EController = $Path2D/EnemyPath/Enemy/EnemyController
+onready var EHealthBar = $Control/EnemyReadout/TextureProgress
+var EHPpercentage
+
 func _on_World_update():
 	PHealth.text = str(PController.CurrentHP) + "/" + str(PController.HP)
 	PName.text = PController.PlayerName
@@ -19,4 +25,19 @@ func _on_World_update():
 		PHealthBar.texture_progress = load("res://pixil-frame-0 (14).png")
 	else:
 		PHealthBar.texture_progress = load("res://pixil-frame-0 (15).png")
+		
+	EHealth.text = str(EController.CurrentHP) + "/" + str(EController.HP)
+	EName.text = EController.EnemyName
+	EHealthBar.max_value = EController.HP
+	EHealthBar.value = EController.CurrentHP
+	EHPpercentage = (float(EController.CurrentHP) / EController.HP)
+	
+	if EHPpercentage <= 0.30:
+		EHealthBar.texture_progress = load("res://pixil-frame-0 (16).png")
+	elif EHPpercentage >= 0.70:
+		EHealthBar.texture_progress = load("res://pixil-frame-0 (14).png")
+	else:
+		EHealthBar.texture_progress = load("res://pixil-frame-0 (15).png")
 
+func _on_Move_Use(user, power, acc, type, name):
+	pass

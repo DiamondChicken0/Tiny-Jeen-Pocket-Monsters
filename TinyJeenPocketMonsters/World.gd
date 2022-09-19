@@ -1,6 +1,11 @@
 extends Node2D
 
 enum {
+	PLAYER
+	ENEMY
+}
+
+enum {
 	ROAM
 	BATTLE
 	PAUSE
@@ -21,6 +26,7 @@ enum {
 
 var state = ROAM
 var menuState = BASE
+var turnState = PLAYER
 signal update
 
 onready var label0 = $Battle/Control/Move1
@@ -105,8 +111,7 @@ func _updateLabels():
 				
 			
 		RUN:
-			if randi() % 2 == 0:
-				_endBattle(LOST)
+			_endBattle(LOST)
 				
 	emit_signal("update")
 
@@ -121,22 +126,59 @@ func _endBattle(condition):
 func _ButtonState(event):
 	match event:
 		0:
-			if menuState == BASE:
-				menuState = FIGHT
+			match (menuState):
+				BASE:
+					menuState = FIGHT
+					
+				FIGHT:
+					pass
+					
+				ITEMS:
+					pass
+					
+				SWITCH:
+					pass
 			
 		1:
-			if menuState == BASE:
-				menuState = ITEMS
+			match (menuState):
+				BASE:
+					menuState = ITEMS
+				
+				FIGHT:
+					pass
+					
+				ITEMS:
+					pass
+					
+				SWITCH:
+					pass
 			
 		2: 
-			if menuState == BASE:
-				menuState = SWITCH
+			match (menuState):
+				BASE:
+					menuState = SWITCH
+					
+				FIGHT:
+					pass
+					
+				ITEMS:
+					pass
+					
+				SWITCH:
+					pass
 		
 		3:
-			if menuState == BASE:
-				menuState = RUN
-	
+			match (menuState):
+				BASE:
+					if randi() % 2 == 0:
+						menuState = RUN
+						
+	if turnState == PLAYER:
+		turnState = ENEMY
+	else:
+		turnState = PLAYER
 	_updateLabels()
+
 
 
 func _on_Move1_pressed():
