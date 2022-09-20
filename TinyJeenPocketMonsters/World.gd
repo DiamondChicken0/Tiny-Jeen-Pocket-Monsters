@@ -34,6 +34,9 @@ onready var label1 = $Battle/Control/Move2
 onready var label2 = $Battle/Control/Move3
 onready var label3 = $Battle/Control/Move4
 onready var Player = $Battle/Path2D2/PathFollow2D/Player/MonsterController
+onready var Enemy = $Battle/Path2D/EnemyPath/Enemy/EnemyController
+
+var damage
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -131,7 +134,7 @@ func _ButtonState(event):
 					menuState = FIGHT
 					
 				FIGHT:
-					pass
+					_onMoveUse(PLAYER,Player.move0pwr, Player.move0acc, Player.move0type, Player.move0name)
 					
 				ITEMS:
 					pass
@@ -145,7 +148,7 @@ func _ButtonState(event):
 					menuState = ITEMS
 				
 				FIGHT:
-					pass
+					_onMoveUse(PLAYER,Player.move1pwr, Player.move1acc, Player.move1type, Player.move1name)
 					
 				ITEMS:
 					pass
@@ -159,7 +162,7 @@ func _ButtonState(event):
 					menuState = SWITCH
 					
 				FIGHT:
-					pass
+					_onMoveUse(PLAYER,Player.move2pwr, Player.move2acc, Player.move2type, Player.move2name)
 					
 				ITEMS:
 					pass
@@ -172,6 +175,15 @@ func _ButtonState(event):
 				BASE:
 					if randi() % 2 == 0:
 						menuState = RUN
+				FIGHT:
+					_onMoveUse(PLAYER,Player.move3pwr, Player.move3acc, Player.move3type, Player.move3name)
+					
+				ITEMS:
+					pass
+					
+				SWITCH:
+					pass
+						
 						
 	if turnState == PLAYER:
 		turnState = ENEMY
@@ -180,6 +192,35 @@ func _ButtonState(event):
 	_updateLabels()
 
 
+func _onMoveUse(user, power, acc, type, name):
+	print("IPad Kid")
+	if user == 0:
+		if type == 0:
+			damage = Player.Atk * power * 0.05
+		else:
+			damage = Player.SpATK * power * 0.05
+			
+		damage = floor(damage)
+		
+		if (Enemy.CurrentHP - damage >= 1):
+			Enemy.CurrentHP -= damage
+		else:
+			Enemy.CurrentHP = 0
+			
+	if user == 1:
+		if type == 0:
+			damage = Enemy.Atk * power * 0.05
+		else:
+			damage = Enemy.SpATK * power * 0.05
+			
+		damage = floor(damage)
+		
+		if (Player.CurrentHP - damage >= 1):
+			Player.CurrentHP -= damage
+		else:
+			Player.CurrentHP = 0
+			
+	
 
 func _on_Move1_pressed():
 	_ButtonState(0)

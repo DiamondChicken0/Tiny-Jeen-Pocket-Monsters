@@ -102,7 +102,7 @@ func _process(delta):
 	if moveChange:
 		match (monster):
 			CHARMINDER:
-				EnemyName = "Charminder"
+				EnemyName = "CHARMINDER"
 				get_parent().texture = load("res://Charminder.png")
 				type1 = FIRE
 				HP = 25

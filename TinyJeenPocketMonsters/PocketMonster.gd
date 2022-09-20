@@ -13,21 +13,21 @@ var SpDef = 1
 var Spd = 1
 var Moves = "AB~~"
 var move0name = "Blank"
-var move0pwr
-var move0acc
-var move0type
+var move0pwr = 1
+var move0acc = 1
+var move0type = 1
 var move1name = "Blank"
-var move1pwr
-var move1acc
-var move1type
+var move1pwr = 1
+var move1acc = 1
+var move1type = 1
 var move2name = "Blank"
-var move2pwr
-var move2acc
-var move2type
+var move2pwr = 1
+var move2acc = 1
+var move2type = 1
 var move3name = "Blank"
-var move3pwr
-var move3acc
-var move3type
+var move3pwr = 1
+var move3acc = 1
+var move3type = 1
 var playerParty = [SQUEERE]
 var playerPartyNames = ["SQUEERE",null,null,null]
 var potions = 3
@@ -102,7 +102,7 @@ func _process(delta):
 	if moveChange:
 		match (monster):
 			CHARMINDER:
-				PlayerName = "Charminder"
+				PlayerName = "CHARMINDER"
 				get_parent().texture = load("res://Charminder.png")
 				type1 = FIRE
 				HP = 25
@@ -154,7 +154,7 @@ func _process(delta):
 							assignMove(i, "WRESTLE", 40, 95, NORMAL)
 							
 						"B":
-							assignMove(i, "SPLASH", 50, 80, WATER)
+							assignMove(i, "SQUIRT", 50, 80, WATER)
 				moveChange = false
 			_:
 				pass

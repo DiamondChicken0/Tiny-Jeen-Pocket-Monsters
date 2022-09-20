@@ -39,5 +39,3 @@ func _on_World_update():
 	else:
 		EHealthBar.texture_progress = load("res://pixil-frame-0 (15).png")
 
-func _on_Move_Use(user, power, acc, type, name):
-	pass
