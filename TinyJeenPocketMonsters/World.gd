@@ -43,6 +43,7 @@ func _ready():
 
 
 func _process(delta):
+	print(Player.playerParty.find(null))
 	_updateLabels()
 	match (state):
 		ROAM:
@@ -87,7 +88,7 @@ func _updateLabels():
 			label0.text += " POTIONS"
 			
 			if Player.bracelets != 0:
-				label1.text = str(Player.potions)
+				label1.text = str(Player.bracelets)
 			else:
 				label1.text = "0"
 			label1.text += " FBRACE"
@@ -137,10 +138,14 @@ func _ButtonState(event):
 					_onMoveUse(PLAYER,Player.move0pwr, Player.move0acc, Player.move0type, Player.move0name)
 					
 				ITEMS:
-					pass
+					if Player.potions != 0 && Player.CurrentHP != Player.HP:
+						_heal(PLAYER, 25, "POTION")
+						Player.potions -= 1
 					
 				SWITCH:
-					pass
+					if Player.PlayerName != Player.playerPartyNames[0]:
+						Player.monster = Player.nameDict[Player.playerPartyNames[0]]
+						Player.moveChange = true
 			
 		1:
 			match (menuState):
@@ -151,10 +156,17 @@ func _ButtonState(event):
 					_onMoveUse(PLAYER,Player.move1pwr, Player.move1acc, Player.move1type, Player.move1name)
 					
 				ITEMS:
-					pass
+					Player.playerParty.find(null)
+					if randi() % 3 == 0 && Player.bracelets != 0:
+						if Player.playerParty.find(null) != -1:
+							Player.playerParty[Player.playerParty.find(null)] = Enemy.monster
+							Player.playerPartyNames[Player.playerParty.find(null)] = Enemy.EnemyName
+							Player.bracelets -= 1
 					
 				SWITCH:
-					pass
+					if Player.PlayerName != Player.playerPartyNames[1]:
+						Player.monster = Player.nameDict[Player.playerPartyNames[1]]
+						Player.moveChange = true
 			
 		2: 
 			match (menuState):
@@ -168,7 +180,9 @@ func _ButtonState(event):
 					pass
 					
 				SWITCH:
-					pass
+					if Player.PlayerName != Player.playerPartyNames[2]:
+						Player.monster = Player.nameDict[Player.playerPartyNames[2]]
+						Player.moveChange = true
 		
 		3:
 			match (menuState):
@@ -182,7 +196,9 @@ func _ButtonState(event):
 					pass
 					
 				SWITCH:
-					pass
+					if Player.PlayerName != Player.playerPartyNames[3]:
+						Player.monster = Player.nameDict[Player.playerPartyNames[3]]
+						Player.moveChange = true
 						
 						
 	if turnState == PLAYER:
@@ -191,7 +207,18 @@ func _ButtonState(event):
 		turnState = PLAYER
 	_updateLabels()
 
-
+func _heal(user, healing, name):
+	if user == 0:
+		if (Player.CurrentHP + healing <= Player.HP):
+				Player.CurrentHP += healing
+		else:
+			Player.CurrentHP = Player.HP
+	else:
+		if (Enemy.CurrentHP + healing <= Enemy.HP):
+				Enemy.CurrentHP += healing
+		else:
+			Enemy.CurrentHP = Enemy.HP
+	
 func _onMoveUse(user, power, acc, type, name):
 	print("IPad Kid")
 	if user == 0:
@@ -207,6 +234,10 @@ func _onMoveUse(user, power, acc, type, name):
 		else:
 			Enemy.CurrentHP = 0
 			
+		
+	turnState = ENEMY
+		
+	
 	if user == 1:
 		if type == 0:
 			damage = Enemy.Atk * power * 0.05
@@ -220,6 +251,7 @@ func _onMoveUse(user, power, acc, type, name):
 		else:
 			Player.CurrentHP = 0
 			
+	turnState = PLAYER
 	
 
 func _on_Move1_pressed():

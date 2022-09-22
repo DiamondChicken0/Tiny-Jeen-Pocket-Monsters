@@ -28,10 +28,11 @@ var move3name = "Blank"
 var move3pwr = 1
 var move3acc = 1
 var move3type = 1
-var playerParty = [SQUEERE]
+var playerMoves = ["AB~~", "AB~~", "AB~~", "AB~~"]
+var playerParty = [SQUEERE, null, null, null]
 var playerPartyNames = ["SQUEERE",null,null,null]
 var potions = 3
-var bracelets = 0
+var bracelets = 2
 
 
 
@@ -41,6 +42,11 @@ enum {
 	SQUEERE
 }
 
+
+var nameDict : Dictionary = {
+	"CHARMINDER" : CHARMINDER,
+	"SQUEERE" : SQUEERE
+}
 enum {
 	NORMAL
 	FIRE
@@ -120,7 +126,7 @@ func _process(delta):
 							
 						"B":
 							assignMove(i, "FIRE", 50, 80, FIRE)
-				moveChange = false
+					moveChange = false
 				
 					
 				

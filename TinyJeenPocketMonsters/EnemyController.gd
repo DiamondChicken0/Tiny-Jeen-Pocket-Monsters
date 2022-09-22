@@ -49,7 +49,6 @@ enum {
 }
 
 
-
 var monster = CHARMINDER
 var EnemyName = "CHARMINDER"
 
