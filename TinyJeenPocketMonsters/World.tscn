@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Red.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://FinalFontSmall.tres" type="DynamicFont" id=14]
 [ext_resource path="res://EnemyController.gd" type="Script" id=15]
 [ext_resource path="res://pixil-frame-0 (19).png" type="Texture" id=16]
+[ext_resource path="res://pixil-frame-0 (20).png" type="Texture" id=17]
+[ext_resource path="res://pixil-frame-0 (22.png" type="Texture" id=18]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 8.0
@@ -225,6 +227,27 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "120/120"
 
+[node name="Sprite" type="Sprite" parent="Battle/Control"]
+visible = false
+position = Vector2( 0, 203 )
+scale = Vector2( 1, 1.13333 )
+texture = ExtResource( 18 )
+centered = false
+
+[node name="Textbox" type="Label" parent="Battle/Control/Sprite"]
+margin_left = 15.0
+margin_top = 14.0
+margin_right = 304.0
+margin_bottom = 60.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "TEST"
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+uppercase = true
+
 [node name="Path2D" type="Path2D" parent="Battle"]
 position = Vector2( 268.2, 46.7333 )
 scale = Vector2( 3.8, 3.8 )
@@ -236,7 +259,7 @@ rotation = -2.2773
 rotate = false
 
 [node name="Enemy" type="Sprite" parent="Battle/Path2D/EnemyPath"]
-position = Vector2( 12.6301, -7.87802 )
+position = Vector2( 15.8304, -7.56891 )
 rotation = 2.28638
 scale = Vector2( 1, 1.00137 )
 texture = ExtResource( 3 )
@@ -267,6 +290,12 @@ script = ExtResource( 9 )
 
 [node name="MonsterController" type="Node" parent="Battle/Path2D2/PathFollow2D/Player"]
 script = ExtResource( 6 )
+
+[node name="Sprite2" type="Sprite" parent="Battle"]
+position = Vector2( 228.5, 117.5 )
+scale = Vector2( 2.975, 2.03333 )
+z_index = -20
+texture = ExtResource( 17 )
 
 [connection signal="update" from="." to="Battle" method="_on_World_update"]
 [connection signal="StartBattle" from="Roam/Player" to="." method="_on_Player_StartBattle"]

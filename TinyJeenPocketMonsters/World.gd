@@ -36,14 +36,17 @@ onready var label3 = $Battle/Control/Move4
 onready var Player = $Battle/Path2D2/PathFollow2D/Player/MonsterController
 onready var Enemy = $Battle/Path2D/EnemyPath/Enemy/EnemyController
 
+var textTemp
 var damage
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	$Battle/Control/Sprite/Textbox.valign = VALIGN_CENTER
+	$Battle/Control/Sprite/Textbox.align = HALIGN_CENTER
 
 
 func _process(delta):
-	print(Player.playerParty.find(null))
+	if Input.is_action_just_pressed("Accept"):
+		$Battle/Control/Sprite.visible = false
 	_updateLabels()
 	match (state):
 		ROAM:
@@ -162,7 +165,13 @@ func _ButtonState(event):
 							Player.playerParty[Player.playerParty.find(null)] = Enemy.monster
 							Player.playerPartyNames[Player.playerParty.find(null)] = Enemy.EnemyName
 							Player.bracelets -= 1
-					
+							textTemp = Enemy.EnemyName + " IS NOW A FRIEND"
+							_textBox(textTemp)
+					elif Player.bracelets == 0:
+						_textBox("NO BRACELETS LEFT")
+					else:
+						textTemp = Enemy.EnemyName + " IS MEAN!"
+						_textBox(textTemp)
 				SWITCH:
 					if Player.PlayerName != Player.playerPartyNames[1]:
 						Player.monster = Player.nameDict[Player.playerPartyNames[1]]
@@ -213,14 +222,21 @@ func _heal(user, healing, name):
 				Player.CurrentHP += healing
 		else:
 			Player.CurrentHP = Player.HP
+		_textBox("RED USED A POTION")
 	else:
 		if (Enemy.CurrentHP + healing <= Enemy.HP):
 				Enemy.CurrentHP += healing
 		else:
 			Enemy.CurrentHP = Enemy.HP
+			textTemp = Enemy.EnemyName + " USED A POTION"
+		_textBox(textTemp)
+			
+
+func _textBox(text):
+	$Battle/Control/Sprite.visible = true
+	$Battle/Control/Sprite/Textbox.text = text
 	
 func _onMoveUse(user, power, acc, type, name):
-	print("IPad Kid")
 	if user == 0:
 		if type == 0:
 			damage = Player.Atk * power * 0.05
