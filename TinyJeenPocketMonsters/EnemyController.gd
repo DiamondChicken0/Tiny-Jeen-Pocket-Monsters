@@ -30,8 +30,10 @@ var move3acc
 var move3type
 var playerParty = [CHARMINDER]
 var playerPartyNames = ["CHARMINDER",null,null,null]
+var faintStates = [true, true, true, true]
 var potions = 3
 var bracelets = 0
+
 
 
 
@@ -46,6 +48,11 @@ enum {
 	FIRE
 	WATER
 	GRASS
+}
+
+var nameDict : Dictionary = {
+	"CHARMINDER" : CHARMINDER,
+	"SQUEERE" : SQUEERE
 }
 
 
@@ -157,4 +164,4 @@ func _process(delta):
 				moveChange = false
 			_:
 				pass
-		
+		faintStates[playerPartyNames.find(EnemyName)] = false

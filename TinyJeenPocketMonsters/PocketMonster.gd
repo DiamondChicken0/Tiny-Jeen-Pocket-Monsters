@@ -31,9 +31,11 @@ var move3type = 1
 var playerMoves = ["AB~~", "AB~~", "AB~~", "AB~~"]
 var playerParty = [SQUEERE, null, null, null]
 var playerPartyNames = ["SQUEERE",null,null,null]
+var faintStates = [true, true, true, true]
 var potions = 3
 var bracelets = 2
-
+var currentEXP = 0
+var level = 5
 
 
 enum {
@@ -104,6 +106,11 @@ func assignMove(moveNum, name, pwr, acc, type):
 		print ("Move Already Learned!")
 	print (move0name + " " + move1name + " " + move2name + " " + move3name)
 	
+func _expGain(gains):
+	currentEXP += gains
+	level = int(pow(currentEXP * 0.25,1.1)) + 5
+	print(level)
+	
 func _process(delta):
 	if moveChange:
 		match (monster):
@@ -164,4 +171,4 @@ func _process(delta):
 				moveChange = false
 			_:
 				pass
-		
+		faintStates[playerPartyNames.find(PlayerName)] = false

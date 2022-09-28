@@ -24,6 +24,7 @@ enum {
 	LOST
 }
 
+var battleEnd = false
 var state = ROAM
 var menuState = BASE
 var turnState = PLAYER
@@ -35,9 +36,10 @@ onready var label2 = $Battle/Control/Move3
 onready var label3 = $Battle/Control/Move4
 onready var Player = $Battle/Path2D2/PathFollow2D/Player/MonsterController
 onready var Enemy = $Battle/Path2D/EnemyPath/Enemy/EnemyController
-
+var emptyParty = true
 var textTemp
 var damage
+var exit = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Battle/Control/Sprite/Textbox.valign = VALIGN_CENTER
@@ -47,15 +49,22 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("Accept"):
 		$Battle/Control/Sprite.visible = false
+		if exit:
+			state = ROAM
+			exit = false
+			
 	_updateLabels()
 	match (state):
 		ROAM:
-			$Battle.visible = false
 			$Roam.visible = true
+			$Battle.visible = false
+			if battleEnd == true:
+				battleEnd == false
 			
 		BATTLE:
-			$Roam.visible = false
-			$Battle.visible = true
+			if battleEnd == false:
+				$Roam.visible = false
+				$Battle.visible = true
 			
 		PAUSE:
 			pass	
@@ -123,9 +132,12 @@ func _updateLabels():
 	emit_signal("update")
 
 func _endBattle(condition):
+	battleEnd = true
 	match(condition):
 		WON:
-			pass
+			Player._expGain(5)
+			_textBox("YOU HAVE WON!")
+			exit = true
 		LOST:
 			state = ROAM
 
@@ -269,7 +281,27 @@ func _onMoveUse(user, power, acc, type, name):
 			
 	turnState = PLAYER
 	
+	if Enemy.CurrentHP == 0 and Enemy.faintStates[Enemy.playerPartyNames.find(Enemy.EnemyName)] == false:
+		_faint(ENEMY)
+	
+	if Player.CurrentHP == 0 and Player.faintStates[Player.playerPartyNames.find(Player.PlayerName)] == false:
+		_faint(PLAYER)
 
+func _faint(user):
+	$Battle/PlayerDeath.frame = 0
+	$Battle/EnemyDeath.frame = 0
+	if user == ENEMY:
+		$Battle/Path2D.visible = false
+		$Battle/EnemyDeath.visible = true
+		$Battle/EnemyDeath.play("default")
+		Enemy.faintStates[Enemy.playerPartyNames.find(Enemy.EnemyName)] = true
+		
+	if user == PLAYER:
+		$Battle/Path2D2.visible = false
+		$Battle/PlayerDeath.visible = true
+		$Battle/EnemyDeath.play("default")
+		Player.faintStates[Player.playerPartyNames.find(Player.PlayerName)] = true
+		
 func _on_Move1_pressed():
 	_ButtonState(0)
 
@@ -292,3 +324,19 @@ func _on_Back1_pressed():
 
 func _on_Back2_pressed():
 	menuState = BASE
+
+
+func _on_PlayerDeath_animation_finished():
+	
+	$Battle/PlayerDeath.visible = false
+	
+	if Player.faintStates.find(false) == -1:
+		_endBattle(LOST)
+
+func _on_EnemyDeath_animation_finished():
+	
+	$Battle/EnemyDeath.visible = false
+
+	if Enemy.faintStates.find(false) == -1:
+		_endBattle(WON)
+
