@@ -49,6 +49,12 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("Accept"):
 		$Battle/Control/Sprite.visible = false
+		$Battle/Control/Back1.disabled = false
+		$Battle/Control/Back2.disabled = false
+		$Battle/Control/Move1.disabled = false
+		$Battle/Control/Move2.disabled = false
+		$Battle/Control/Move3.disabled = false
+		$Battle/Control/Move4.disabled = false
 		if exit:
 			state = ROAM
 			exit = false
@@ -58,8 +64,6 @@ func _process(delta):
 		ROAM:
 			$Roam.visible = true
 			$Battle.visible = false
-			if battleEnd == true:
-				battleEnd == false
 			
 		BATTLE:
 			if battleEnd == false:
@@ -171,11 +175,11 @@ func _ButtonState(event):
 					_onMoveUse(PLAYER,Player.move1pwr, Player.move1acc, Player.move1type, Player.move1name)
 					
 				ITEMS:
-					Player.playerParty.find(null)
+					randomize()
 					if randi() % 3 == 0 && Player.bracelets != 0:
 						if Player.playerParty.find(null) != -1:
 							Player.playerParty[Player.playerParty.find(null)] = Enemy.monster
-							Player.playerPartyNames[Player.playerParty.find(null)] = Enemy.EnemyName
+							Player.playerPartyNames[Player.playerPartyNames.find(null)] = Enemy.EnemyName
 							Player.bracelets -= 1
 							textTemp = Enemy.EnemyName + " IS NOW A FRIEND"
 							_textBox(textTemp)
@@ -183,6 +187,7 @@ func _ButtonState(event):
 						_textBox("NO BRACELETS LEFT")
 					else:
 						textTemp = Enemy.EnemyName + " IS MEAN!"
+						Player.bracelets -= 1
 						_textBox(textTemp)
 				SWITCH:
 					if Player.PlayerName != Player.playerPartyNames[1]:
@@ -247,7 +252,13 @@ func _heal(user, healing, name):
 func _textBox(text):
 	$Battle/Control/Sprite.visible = true
 	$Battle/Control/Sprite/Textbox.text = text
-	
+	$Battle/Control/Back1.disabled = true
+	$Battle/Control/Back2.disabled = true
+	$Battle/Control/Move1.disabled = true
+	$Battle/Control/Move2.disabled = true
+	$Battle/Control/Move3.disabled = true
+	$Battle/Control/Move4.disabled = true
+
 func _onMoveUse(user, power, acc, type, name):
 	if user == 0:
 		if type == 0:
@@ -257,11 +268,15 @@ func _onMoveUse(user, power, acc, type, name):
 			
 		damage = floor(damage)
 		
+		if name != "BLANK":
+			_textBox("YOU USED " + name)
+		else:
+			_textBox("YOU FLAIL AROUND STUPIDLY")
+		
 		if (Enemy.CurrentHP - damage >= 1):
 			Enemy.CurrentHP -= damage
 		else:
 			Enemy.CurrentHP = 0
-			
 		
 	turnState = ENEMY
 		

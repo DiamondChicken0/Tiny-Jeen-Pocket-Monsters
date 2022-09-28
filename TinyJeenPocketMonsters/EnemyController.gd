@@ -12,19 +12,19 @@ var Def = 1
 var SpDef = 1
 var Spd = 1
 var Moves = "AB~~"
-var move0name = "Blank"
+var move0name = "BLANK"
 var move0pwr
 var move0acc
 var move0type
-var move1name = "Blank"
+var move1name = "BLANK"
 var move1pwr
 var move1acc
 var move1type
-var move2name = "Blank"
+var move2name = "BLANK"
 var move2pwr
 var move2acc
 var move2type
-var move3name = "Blank"
+var move3name = "BLANK"
 var move3pwr
 var move3acc
 var move3type
@@ -32,7 +32,7 @@ var playerParty = [CHARMINDER]
 var playerPartyNames = ["CHARMINDER",null,null,null]
 var faintStates = [true, true, true, true]
 var potions = 3
-var bracelets = 0
+var bracelets = 2
 
 
 

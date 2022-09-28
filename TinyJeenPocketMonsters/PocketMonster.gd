@@ -12,19 +12,19 @@ var Def = 1
 var SpDef = 1
 var Spd = 1
 var Moves = "AB~~"
-var move0name = "Blank"
+var move0name = "BLANK"
 var move0pwr = 1
 var move0acc = 1
 var move0type = 1
-var move1name = "Blank"
+var move1name = "BLANK"
 var move1pwr = 1
 var move1acc = 1
 var move1type = 1
-var move2name = "Blank"
+var move2name = "BLANK"
 var move2pwr = 1
 var move2acc = 1
 var move2type = 1
-var move3name = "Blank"
+var move3name = "BLANK"
 var move3pwr = 1
 var move3acc = 1
 var move3type = 1
@@ -55,8 +55,6 @@ enum {
 	WATER
 	GRASS
 }
-
-
 
 var monster = SQUEERE
 var PlayerName = "CHARMINDER"
