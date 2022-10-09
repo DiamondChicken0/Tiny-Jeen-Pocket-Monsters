@@ -13,6 +13,11 @@ onready var EHealthBar = $Control/EnemyReadout/TextureProgress
 var EHPpercentage
 
 func _on_World_update():
+	EController.CurrentHP = round(EController.CurrentHP)
+	EController.HP = round(EController.HP)
+	PController.CurrentHP = round(PController.CurrentHP)
+	PController.HP = round(PController.CurrentHP)
+	
 	PHealth.text = str(PController.CurrentHP) + "/" + str(PController.HP)
 	PName.text = PController.PlayerName
 	PHealthBar.max_value = PController.HP

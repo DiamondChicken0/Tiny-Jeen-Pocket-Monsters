@@ -40,6 +40,7 @@ var emptyParty = true
 var textTemp
 var damage
 var exit = false
+var proposedMove = 5
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Battle/Control/Sprite/Textbox.valign = VALIGN_CENTER
@@ -47,6 +48,7 @@ func _ready():
 
 
 func _process(delta):
+	_updateLabels()
 	if Input.is_action_just_pressed("Accept"):
 		$Battle/Control/Sprite.visible = false
 		$Battle/Control/Back1.disabled = false
@@ -58,8 +60,7 @@ func _process(delta):
 		if exit:
 			state = ROAM
 			exit = false
-			
-	_updateLabels()
+	
 	match (state):
 		ROAM:
 			$Roam.visible = true
@@ -69,20 +70,68 @@ func _process(delta):
 			if battleEnd == false:
 				$Roam.visible = false
 				$Battle.visible = true
+				if turnState == ENEMY:
+					if Enemy.currentEXP < Player.currentEXP * 0.8:
+						if Enemy.move0type == Player.Weaknesses[Player.type1]:
+							if randi() % 5 != 0:
+								proposedMove = 0
+						if Enemy.move1name != "BLANK" and Enemy.move1type == Player.Weaknesses[Player.type1]:
+							if randi() % 5 != 1:
+								proposedMove = 1
+						if Enemy.move2name != "BLANK" and Enemy.move2type == Player.Weaknesses[Player.type1]:
+							if randi() % 5 != 2:
+								proposedMove = 2
+						if Enemy.move3name != "BLANK" and Enemy.move3type == Player.Weaknesses[Player.type1]:
+							if randi() % 5 != 3:
+								proposedMove = 3
+								
+					elif Enemy.currentEXP > Player.currentEXP * 1.2:
+						if Player.effects != 0:
+							if Enemy.move0type == 18:
+								if randi() % 5 != 0:
+									proposedMove = 0
+							if Enemy.move1name != "BLANK" and Enemy.move1type == 18:
+								if randi() % 5 != 1:
+									proposedMove = 1
+							if Enemy.move2name != "BLANK" and Enemy.move2type == 18:
+								if randi() % 5 != 2:
+									proposedMove = 2
+							if Enemy.move3name != "BLANK" and Enemy.move3type == 18:
+								if randi() % 5 != 3:
+									proposedMove = 3
+						else:
+							if Enemy.move0type == Player.Weaknesses[Player.type1]:
+								if randi() % 5 != 0:
+									proposedMove = 0
+							if Enemy.move1name != "BLANK" and Enemy.move1type == Player.Weaknesses[Player.type1]:
+								if randi() % 5 != 1:
+									proposedMove = 1
+							if Enemy.move2name != "BLANK" and Enemy.move2type == Player.Weaknesses[Player.type1]:
+								if randi() % 5 != 2:
+									proposedMove = 2
+							if Enemy.move3name != "BLANK" and Enemy.move3type == Player.Weaknesses[Player.type1]:
+								if randi() % 5 != 3:
+									proposedMove = 3
+									
+					if proposedMove == 5:
+						if randi() % 1 == 1:
+							_heal(1, 20, "POTION")
+							proposedMove = -1
+						else:
+							randomize()
+							proposedMove = randi() % 3
+							
+						_textBox("worked")
 			
 		PAUSE:
-			pass	
-
-
-
+			pass
 
 func _on_Player_StartBattle():
 	state = BATTLE
 	_updateLabels()
 
-
-
 func _updateLabels():
+	#Remember to fix this fuckhead 
 	match menuState:
 		BASE:
 			label0.text = "FIGHT"
@@ -132,14 +181,14 @@ func _updateLabels():
 			
 		RUN:
 			_endBattle(LOST)
-				
+			 
 	emit_signal("update")
 
 func _endBattle(condition):
 	battleEnd = true
 	match(condition):
 		WON:
-			Player._expGain(5)
+			Player._expGain(5 )
 			_textBox("YOU HAVE WON!")
 			exit = true
 		LOST:
@@ -194,7 +243,7 @@ func _ButtonState(event):
 						Player.monster = Player.nameDict[Player.playerPartyNames[1]]
 						Player.moveChange = true
 			
-		2: 
+		2:
 			match (menuState):
 				BASE:
 					menuState = SWITCH
@@ -225,28 +274,23 @@ func _ButtonState(event):
 					if Player.PlayerName != Player.playerPartyNames[3]:
 						Player.monster = Player.nameDict[Player.playerPartyNames[3]]
 						Player.moveChange = true
-						
-						
-	if turnState == PLAYER:
-		turnState = ENEMY
-	else:
-		turnState = PLAYER
 	_updateLabels()
 
 func _heal(user, healing, name):
 	if user == 0:
 		if (Player.CurrentHP + healing <= Player.HP):
-				Player.CurrentHP += healing
+			Player.CurrentHP += healing
 		else:
 			Player.CurrentHP = Player.HP
 		_textBox("RED USED A POTION")
 	else:
 		if (Enemy.CurrentHP + healing <= Enemy.HP):
-				Enemy.CurrentHP += healing
+			Enemy.CurrentHP += healing
 		else:
 			Enemy.CurrentHP = Enemy.HP
 			textTemp = Enemy.EnemyName + " USED A POTION"
 		_textBox(textTemp)
+	_turnStateChange()
 			
 
 func _textBox(text):
@@ -264,8 +308,13 @@ func _onMoveUse(user, power, acc, type, name):
 		if type == 0:
 			damage = Player.Atk * power * 0.05
 		else:
-			damage = Player.SpATK * power * 0.05
-			
+			damage = Player.SpATK * power * 0.04
+			if Enemy.Weaknesses[Enemy.type1] == type:
+				damage *= 1.2
+				
+			if Enemy.Strengths[Enemy.type1] == type:
+				damage *= 0.8
+				
 		damage = floor(damage)
 		
 		if name != "BLANK":
@@ -278,30 +327,42 @@ func _onMoveUse(user, power, acc, type, name):
 		else:
 			Enemy.CurrentHP = 0
 		
-	turnState = ENEMY
-		
-	
 	if user == 1:
 		if type == 0:
 			damage = Enemy.Atk * power * 0.05
 		else:
-			damage = Enemy.SpATK * power * 0.05
+			damage = Enemy.SpATK * power * 0.04
 			
+			if Player.Weaknesses[Player.type1] == type:
+				damage *= 1.2
+				
+			if Player.Strengths[Player.type1] == type:
+				damage *= 0.8
+				
 		damage = floor(damage)
 		
 		if (Player.CurrentHP - damage >= 1):
 			Player.CurrentHP -= damage
 		else:
 			Player.CurrentHP = 0
-			
-	turnState = PLAYER
 	
 	if Enemy.CurrentHP == 0 and Enemy.faintStates[Enemy.playerPartyNames.find(Enemy.EnemyName)] == false:
 		_faint(ENEMY)
 	
 	if Player.CurrentHP == 0 and Player.faintStates[Player.playerPartyNames.find(Player.PlayerName)] == false:
 		_faint(PLAYER)
-
+	
+	Enemy.CurrentHP = round(Enemy.CurrentHP)
+	Player.CurrentHP = round(Player.CurrentHP)
+	_turnStateChange()
+	
+func _turnStateChange():
+	
+	if turnState == PLAYER:
+		turnState = ENEMY
+	else:
+		turnState = PLAYER
+		
 func _faint(user):
 	$Battle/PlayerDeath.frame = 0
 	$Battle/EnemyDeath.frame = 0

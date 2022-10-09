@@ -29,34 +29,100 @@ var move3pwr = 1
 var move3acc = 1
 var move3type = 1
 var playerMoves = ["AB~~", "AB~~", "AB~~", "AB~~"]
-var playerParty = [SQUEERE, null, null, null]
-var playerPartyNames = ["SQUEERE",null,null,null]
+var playerParty = [SQUARE, null, null, null]
+var playerPartyNames = ["SQUARE",null,null,null]
 var faintStates = [true, true, true, true]
 var potions = 3
 var bracelets = 2
-var currentEXP = 0
+var currentEXP = 1
 var level = 5
+var effects = FINE
 
+enum {
+	FINE
+	ONFIRE
+	FROZEN
+	SHOCKED
+	SLEEPY
+}
 
 enum {
 	CHARMINDER
 	MINKEY
-	SQUEERE
+	SQUARE
+	BIRDLETTE
 }
-
 
 var nameDict : Dictionary = {
 	"CHARMINDER" : CHARMINDER,
-	"SQUEERE" : SQUEERE
+	"SQUARE" : SQUARE
 }
+
 enum {
 	NORMAL
 	FIRE
 	WATER
 	GRASS
+	ELECTRIC
+	ICE
+	FIGHTING
+	POISON
+	GROUND
+	FLYING
+	PSYCHIC
+	BUG
+	ROCK
+	GHOST
+	DRAGON
+	DARK
+	STEEL
+	FAIRY
+	NONE
 }
 
-var monster = SQUEERE
+var Weaknesses : Dictionary = {
+	NORMAL : NONE,
+	FIRE : WATER,
+	WATER : GRASS,
+	GRASS : FIRE,
+	ELECTRIC : GRASS,
+	ICE : FIRE,
+	FIGHTING : POISON,
+	POISON : ROCK,
+	GROUND : BUG,
+	FLYING : ELECTRIC,
+	PSYCHIC : PSYCHIC,
+	BUG : STEEL,
+	ROCK : STEEL,
+	GHOST : DARK,
+	DRAGON : FAIRY,
+	DARK : FAIRY,
+	STEEL : FIRE,
+	FAIRY : POISON
+}
+
+var Strengths : Dictionary = {
+	NORMAL : NONE,
+	FIRE : GRASS,
+	WATER : FIRE,
+	GRASS : WATER,
+	ELECTRIC : FLYING,
+	ICE : FIRE,
+	FIGHTING : ROCK,
+	POISON : BUG,
+	GROUND : ELECTRIC,
+	FLYING : FIGHTING,
+	PSYCHIC : FIGHTING,
+	BUG : FLYING,
+	ROCK : ELECTRIC,
+	GHOST : NORMAL,
+	DRAGON : ICE,
+	DARK : POISON,
+	STEEL : FIGHTING,
+	FAIRY : DARK
+} 
+
+var monster = SQUARE
 var PlayerName = "CHARMINDER"
 
 # Called when the node enters the scene tree for the first time.
@@ -100,14 +166,11 @@ func assignMove(moveNum, name, pwr, acc, type):
 				move3pwr = pwr
 				move3acc = acc
 				move3type = type
-	else:
-		print ("Move Already Learned!")
-	print (move0name + " " + move1name + " " + move2name + " " + move3name)
 	
 func _expGain(gains):
 	currentEXP += gains
 	level = int(pow(currentEXP * 0.25,1.1)) + 5
-	print(level)
+	moveChange = true
 	
 func _process(delta):
 	if moveChange:
@@ -116,13 +179,13 @@ func _process(delta):
 				PlayerName = "CHARMINDER"
 				get_parent().texture = load("res://Charminder.png")
 				type1 = FIRE
-				HP = 25
-				CurrentHP = 25
-				Atk = 6
-				SpATK = 7
-				Def = 4
-				SpDef = 4
-				Spd = 6
+				HP = 25 * ((level - 4) * 0.02 + 1)
+				CurrentHP = HP
+				Atk = 6 * ((level - 4) * 0.02 + 1)
+				SpATK = 7 * ((level - 4) * 0.02 + 1)
+				Def = 4 * ((level - 4) * 0.02 + 1) 
+				SpDef = 4 * ((level - 4) * 0.02 + 1)
+				Spd = 6 * ((level - 4) * 0.02 + 1)
 				
 				for i in 4:
 					match (Moves.substr(i,1)):
@@ -139,25 +202,25 @@ func _process(delta):
 				PlayerName = "MINKEY"
 				get_parent().texture = load("res://Minkey.png")
 				type1 = NORMAL
-				CurrentHP = 30
-				HP = 30
-				Atk = 8
-				SpATK = 3
-				Def = 5
-				SpDef = 3
-				Spd = 5
+				HP = 30 * ((level - 4) * 0.02 + 1)
+				CurrentHP = HP
+				Atk = 8 * ((level - 4) * 0.02 + 1)
+				SpATK = 3 * ((level - 4) * 0.02 + 1)
+				Def = 5 * ((level - 4) * 0.02 + 1)
+				SpDef = 3 * ((level - 4) * 0.02 + 1)
+				Spd = 5 * ((level - 4) * 0.02 + 1)
 				
-			SQUEERE:
-				PlayerName = "SQUEERE"
-				get_parent().texture = load("res://Squuere.png")
+			SQUARE:
+				PlayerName = "SQUARE"
+				get_parent().texture = load("res://Square.png")
 				type1 = WATER
-				CurrentHP = 32
-				HP = 32
-				Atk = 3
-				SpATK = 7
-				Def = 6
-				SpDef = 6
-				Spd = 2
+				HP = 32 * ((level - 4) * 0.02 + 1)
+				CurrentHP = HP
+				Atk = 3 * ((level - 4) * 0.02 + 1)
+				SpATK = 7 * ((level - 4) * 0.02 + 1)
+				Def = 6 * ((level - 4) * 0.02 + 1)
+				SpDef = 6 * ((level - 4) * 0.02 + 1)
+				Spd = 2 * ((level - 4) * 0.02 + 1)
 				
 				for i in 4:
 					match (Moves.substr(i,1)):
@@ -165,8 +228,9 @@ func _process(delta):
 							assignMove(i, "WRESTLE", 40, 95, NORMAL)
 							
 						"B":
-							assignMove(i, "SQUIRT", 50, 80, WATER)
+							assignMove(i, "SPLASH", 50, 80, WATER)
 				moveChange = false
+			
 			_:
 				pass
 		faintStates[playerPartyNames.find(PlayerName)] = false
