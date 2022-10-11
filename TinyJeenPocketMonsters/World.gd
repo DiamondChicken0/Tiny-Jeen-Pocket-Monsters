@@ -45,6 +45,7 @@ var proposedMove = 5
 func _ready():
 	$Battle/Control/Sprite/Textbox.valign = VALIGN_CENTER
 	$Battle/Control/Sprite/Textbox.align = HALIGN_CENTER
+	$Roam/Player/RoamCamera.make_current()
 
 
 func _process(delta):
