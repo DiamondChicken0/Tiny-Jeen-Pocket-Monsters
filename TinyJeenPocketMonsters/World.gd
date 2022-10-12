@@ -61,6 +61,7 @@ func _process(delta):
 		if exit:
 			state = ROAM
 			exit = false
+			$Roam/Player/RoamCamera.make_current()
 	
 	match (state):
 		ROAM:
@@ -69,6 +70,7 @@ func _process(delta):
 			
 		BATTLE:
 			if battleEnd == false:
+				$Battle/BattleCamera.make_current()
 				$Roam.visible = false
 				$Battle.visible = true
 				if turnState == ENEMY:
