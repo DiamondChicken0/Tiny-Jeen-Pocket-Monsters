@@ -884,7 +884,7 @@ tile_data = PoolIntArray( -655350, 0, 0, -655349, 0, 1, -655348, 0, 1, -655347, 
 [node name="Decorations" type="Node2D" parent="Roam/YSort"]
 
 [node name="Player" type="KinematicBody2D" parent="Roam"]
-position = Vector2( 61, 82 )
+position = Vector2( 60, 138 )
 collision_mask = 7
 script = ExtResource( 2 )
 

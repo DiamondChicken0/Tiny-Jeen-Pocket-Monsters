@@ -124,8 +124,6 @@ func _process(delta):
 							randomize()
 							proposedMove = randi() % 3
 							
-						_textBox("worked")
-			
 		PAUSE:
 			pass
 
@@ -323,7 +321,7 @@ func _onMoveUse(user, power, acc, type, name):
 		if name != "BLANK":
 			_textBox("YOU USED " + name)
 		else:
-			_textBox("YOU FLAIL AROUND STUPIDLY")
+			_textBox("YOU FLAIL AROUND USELESSLY")
 		
 		if (Enemy.CurrentHP - damage >= 1):
 			Enemy.CurrentHP -= damage
